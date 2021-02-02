@@ -37,7 +37,7 @@ int main(){
 	//pre_calc();
 
 	ll t=1;
-	rep(T,1,t+1){
+	for(ll T=1; T<=t; T++){
 		solve(T);
 	}
 	return 0;
