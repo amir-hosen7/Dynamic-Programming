@@ -65,12 +65,14 @@ int main(){
 				}
 			}
 		} 
+		/*
 		for(ll i=1; i<=n; i++){
 			for(ll j=1; j<=k; j++){
 				cout<<dp[i][j]<<" ";
 			}
 			cout<<"\n";
-		}                                                                                                       
+		}  
+		*/
 		cout<<dp[n][k]<<"\n";
 	}
 	return 0;
