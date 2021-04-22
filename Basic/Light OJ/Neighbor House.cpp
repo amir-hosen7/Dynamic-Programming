@@ -47,7 +47,7 @@ ll solve(ll idx,ll color){
 	ll ans=inf;
 	for(ll i=1; i<=3; i++){
 		if(i!=color){
-			ans=min(ans,cost[idx+1][i]+solve(idx+1,i));
+			ans=min(ans,cost[idx][i]+solve(idx+1,i));
 		}
 	}
 	return dp[idx][color]=ans;
@@ -62,7 +62,6 @@ int main(){
 	ll t=1; cin>>t;
 	for(ll T=1; T<=t; T++){
 		memset(dp,-1,sizeof(dp));
-		memset(cost,0,sizeof(cost));
 		cin>>n;
 		for(ll i=1; i<=n; i++){
 			for(ll j=1; j<=3; j++){
