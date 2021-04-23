@@ -6,18 +6,17 @@ typedef unsigned long long ull;
 #define F first
 #define S second
 #define all(v) v.begin(),v.end()
-#define prln(a) cout<<a<<"\n"
-#define nl cout<<"\n"
-#define P(a) cout<<a
-#define PP(a,b) cout<<a<<" "<<b
-#define PPP(a,b,c) cout<<a<<" "<<b<<" "<<c
+#define Mid(b,e) b+(e-b)/2
 #define inf 2147483647
 
 //---------------------------------------------------------------------------//
+//Timus: 314795JS
 
 //knight moves
-ll X[8] = {2, 1, -1, -2, -2, -1, 1, 2}; 	
-ll Y[8] = {1, 2, 2, 1, -1, -2, -2, -1}; 
+//ll X[8] = {2, 1, -1, -2, -2, -1, 1, 2}; 	
+//ll Y[8] = {1, 2, 2, 1, -1, -2, -2, -1}; 
+//ll dx[]={1,-1,0,0};
+//ll dy[]={0,0,1,-1};
 void yesNo(bool ck){cout<<(ck? "YES\n":"NO\n");}
 ll toInt(string s){stringstream ss;ss<<s;int n;ss>>n;return n;}
 string toString(ll n){stringstream ss;ss<<n;string s;ss>>s;return s;}
@@ -29,7 +28,9 @@ bool isVowel(char ch){ch=toupper(ch);if(ch=='A'||ch=='U'||ch=='I'||ch=='O'||ch==
 bool isCons(char ch){if(isalpha(ch) && !isVowel(ch)){return true;} return false;}
 
 //------------------------------------------------------------------------------//
-const ll N=2e5+50;
+
+const ll p=29;
+const ll N=2e6+50;
 const ll mod=1e9+7;
 
 
@@ -42,22 +43,23 @@ int main(){
 	ll t=1;
 	for(ll T=1; T<=t; T++){
 		ll n; cin>>n;
+		string str;
 		ll dp[n+5][2];
 		dp[0][0]=1;
 		dp[0][1]=1;
 		for(ll i=1; i<=n; i++){
-			string s; cin>>s;
-			if(s=="OR"){
-				dp[i][0]=dp[i-1][0];
-				dp[i][1]=(dp[i-1][1]*2)+dp[i-1][0];
-			}
-			else{
-				dp[i][0]=(dp[i-1][0]*2)+dp[i-1][1];
+			cin>>str;
+			if(str=="AND"){
+				dp[i][0]=dp[i-1][1]+dp[i-1][0]*2;
 				dp[i][1]=dp[i-1][1];
 			}
-			//cout<<dp[i][0]<<"\n"<<dp[i][1]<<"\n";
+			else{
+				dp[i][0]=dp[i-1][0];
+				dp[i][1]=dp[i-1][0]+dp[i-1][1]*2;
+			}
 		}
 		cout<<dp[n][1]<<"\n";
 	}
 	return 0;
 }
+
