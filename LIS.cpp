@@ -1,93 +1,35 @@
-#include<bits/stdc++.h>
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
-using namespace std;
-typedef long long ll;
-typedef unsigned long long ull;
-#define pb push_back
-#define F first
-#define S second
-#define all(v) v.begin(),v.end()
-#define Mid(b,e) b+(e-b)/2
-#define inf 1e18
-double PI=2*acos(0.0);
-
-//---------------------------------------------------------------------------//
-//Timus: 314795JS
-//knight moves
-// ll X[8] = {2, 1, -1, -2, -2, -1, 1, 2};
-// ll Y[8] = {1, 2, 2, 1, -1, -2, -2, -1};
-// ll dx[]={1,-1,0,0};
-// ll dy[]={0,0,1,-1};
-void yesNo(bool ck){cout<<(ck? "YES\n":"NO\n");}
-//typedef tree<ll, null_type,less_equal<ll>, rb_tree_tag,tree_order_statistics_node_update>pbds;
-//typedef tree<ll, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update>pbds; 
-//typedef tree<pair<ll,ll>, null_type, less<pair<ll,ll>>, rb_tree_tag, tree_order_statistics_node_update>pbds; 
-
-//------------------------------------------------------------------------------//
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int ans = 1, n = size(nums);
+        vector<int> dp(n, 1);
+        for(int i = 0; i < n; i++) 
+            for(int j = 0; j < i; j++) 
+                if(nums[i] > nums[j]) 
+				    dp[i] = max(dp[i], dp[j] + 1), ans = max(ans, dp[i]);
+        return ans;
+    }
+};
 
 
-const ll P=29;
-const ll N=2e6+50;
-const ll mod=1e9+7;
 
-ll dp[100],next_idx[100];
 
-ll lis(ll idx, vector<ll>&A, ll n){
-	if(dp[idx]!=-1){
-		return dp[idx];
-	}
-	ll ans=0;
-	for(ll j=idx+1; j<n; j++){
-		if(A[j]>A[idx]){
-			ll subAns=lis(j,A,n);
-			if(subAns>ans){
-				ans=subAns;
-				next_idx[idx]=j;
-			}
-		}
-	}
-	return dp[idx]=ans+1;
-}
 
-int main(){
-
-	//freopen("input.txt", "r", stdin);
-	//freopen("output.txt", "w", stdout);
-	//ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
-
-	ll t=1;
-	for(ll T=1; T<=t; T++){
-		ll n;
-		cin>>n;
-		vector<ll>A(n);
-		for(ll i=0; i<n; i++){
-			cin>>A[i];
-		}
-		memset(dp,-1,sizeof(dp));
-		memset(next_idx,-1,sizeof(next_idx));
-		ll ans=0,start_idx;
-		for(ll i=0; i<n; i++){
-			ll subAns=lis(i,A,n);
-			if(subAns>ans){
-				ans=subAns;
-				start_idx=i;
-			}
-		}
-		cout<<ans<<"\n";
-		vector<ll>path;
-		while(start_idx!=-1){
-			path.pb(A[start_idx]);
-			start_idx=next_idx[start_idx];
-		}
-		cout<<"Path: ";
-		for(auto i:path){
-			cout<<i<<" ";
-		}cout<<"\n";
-	}
-	return 0;
-}
+class Solution {
+public:
+    vector<vector<int>> dp;
+    int lengthOfLIS(vector<int>& nums) {
+        dp.resize(size(nums), vector<int>(1+size(nums), -1));   // dp[i][j] denotes max LIS starting from i when nums[j] is previous picked element
+        return solve(nums, 0, -1);
+    }
+    int solve(vector<int>& nums, int i, int prev_i) {
+        if(i >= size(nums)) return 0;
+        if(dp[i][prev_i+1] != -1) return dp[i][prev_i+1];
+        int take = 0, dontTake = solve(nums, i + 1, prev_i);
+        if(prev_i == -1 || nums[i] > nums[prev_i]) take = 1 + solve(nums, i + 1, i); // try picking current element if no previous element is chosen or current > nums[prev_i]
+        return dp[i][prev_i+1] = max(take, dontTake);
+    }
+};
 
 
 
