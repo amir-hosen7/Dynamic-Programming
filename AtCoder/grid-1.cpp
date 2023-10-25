@@ -24,8 +24,7 @@ int main() {
     for (ll i = 1; i <= row; i++) {
         for (ll j = 1; j <= col; j++) {
             if (grid[i][j] == '#') continue;
-            dp[i][j] = (dp[i][j] + dp[i][j - 1]) % mod;
-            dp[i][j] = (dp[i][j] + dp[i - 1][j]) % mod;
+            dp[i][j] = (dp[i][j] + dp[i][j - 1] + dp[i - 1][j]) % mod;
         }
     }
     cout << dp[row][col] << "\n";
